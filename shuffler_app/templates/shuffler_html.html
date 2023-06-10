@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+	.parent-container {
+		display: grid;
+		place-items: center;
+	  }
+	body 	{background-color: lightblue; font-family: Arial}
+	h5	{text-align: right;}
+</style>
+
+</head>
+
+<body style='margin-top:20; margin-left:20; margin-right:20; '>
+
+<h1> <b> WELCOME TO THE SHUFFLER GAME </b> </h1>
+ <py-script src = "shuffler3.py">
+
+<form>
+	
+<label for="Definition">Definition: {{meanings_p}}</label> <br>
+
+<label for="Shuffled">Shuffled Word: {{shuffled_word_p}}</label><br>
+
+<label for="UserInput">Original Word:</label>
+<input type="text" id="UserInput">
+<button type="submit" onclick="handleSubmit()">Submit</button><br>
+
+<label for="output" id="output"> Result: {{output}}</label>
+
+</form>
+
+<br>
+<br>
+
+<script>
+    function handleSubmit() {
+      // Get the input value
+      var inputValue = document.getElementById('UserInput').value.toUpperCase();
+      var originalinput = "{{original_word_p}}";
+      
+      // Compare the input value with the assigned variable
+      if (originalinput === inputValue) {
+        // Display output if they match
+        document.getElementById('output').textContent = "Result: You are correct!";
+      } else {
+        // Display output if they don't match
+        document.getElementById('output').textContent = "Result: You are wrong! The correct answer is " + "{{original_word_p}}.";
+      }
+      // Prevent form submission
+      event.preventDefault();
+    }
+  </script>
+</head>
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+
+
+
+
+
+	function restartScript() {
+		var csrftoken = getCookie('csrftoken');
+
+		$.ajax({
+			url: '/restart_script/',
+			type: 'POST',
+			headers: {
+				'X-CSRFToken': csrftoken
+			},
+			success: function(response) {
+				alert(response);
+			},
+			error: function(xhr, status, error) {
+				alert("An error occurred.");
+			}
+		});
+	}
+</script>
+	
+</py-script>	
+</body>
+
+<!-- <form action="{% url 'restart_script' %}" method="post"> -->
+<form method="post">
+	{% csrf_token %}
+	<button onclick="restartScript">Guess Another Word</button>
+</form>
+
+</html>
+
+<!-- function getCookie(name) { ---- after <script> and before
+	var cookieValue = null;
+	if(document.cookie && document.cookie !== '') {
+		var cookies = document.cookie.split(';');
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = cookies[i].trim();
+			if (cookie.substring(0, name.length + 1) === (name + '=')) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
+		}
+	}
+	return cookieValue;
+} -->
