@@ -16,10 +16,9 @@ Including another URLconf
 from django.conf.urls import url
 from django.urls import path
 from django.contrib import admin
-from shuffler_app.views import restart_script, my_view
+from shuffler_app.views import get_random_word, home
 
 urlpatterns = [
-    url('/restart_script/', restart_script, name='restart_script'),
-    url(r'^$', my_view, name='my-view'),
-    #path('restart_script/', restart_script, name='restart_script'),
+    path('', home, name='home'),
+    path('get_random_word/', get_random_word, name='get_random_word'),
 ]

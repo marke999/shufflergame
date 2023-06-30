@@ -1,89 +1,52 @@
-# -*- coding: utf-8 -*-,
-from __future__ import unicode_literals
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from shuffler_app.shuffler3 import definition, shuffled_word, random_word
-import shuffler_app.shuffler3 as shuffler3
-import subprocess
-import signal
-import importlib
-import os
+from django.http import JsonResponse
+import random
+import requests
 
-process = None
+# Main Python Logic
+def get_random_word(request):
+      # Path to the CSV file
+      file_path = "/home/lgucebu1/Tasks/Python3/shuffler/shuffler_app/templates/words10.txt"
 
-def my_view(request):
-      #Store the data in variables      
-      meanings_p = definition
-      shuffled_word_p = shuffled_word
-      original_word_p = random_word
-      
-      #Construct the template context with many variables
-      context = {
-            'meanings_p': meanings_p,
-            'original_word_p': original_word_p,
-            'shuffled_word_p': shuffled_word_p
-      }
-      
-      return render(request, 'shuffler_html.html', context)
-      
-# def restart_script(request):
-      
-#       global process
+      # Read the words from the CSV file
+      with open(file_path, "r") as file:
+            words = file.read().split()
 
-#       if process is not None and process.poll() is None:
-#             process.send_signal(signal.SIGTERM)
-#             process.terminate()
-#             process.wait()
+      # Select a random word from the list
+      random_word = random.choice(words)
 
-#       process = subprocess.run(['python3', "/home/lgucebu1/Tasks/Python3/shuffler/shuffler_app/shuffler3.py"])
-#       importlib.reload(shuffler3)
+      # Shuffle the letters in the word
+      shuffled_word = "".join(random.sample(random_word, len(random_word)))
 
-#       return HttpResponse("Script restarted")
+      # API dictionary
+      url = "https://api.dictionaryapi.dev/api/v2/entries/en/{}".format(random_word)
+      response = requests.get(url)
 
-def restart_script(request):
-            
-      # Terminate the existing process, if any
-      global process
+      # Retrieve meaning of the random word
+      if response.status_code == 200:     
+            data = response.json()
 
-      #Store the data in variables      
-      meanings_p = definition
-      shuffled_word_p = shuffled_word
-      original_word_p = random_word
-      
-      #Construct the template context with many variables
-      context = {
-            'meanings_p': meanings_p,
-            'original_word_p': original_word_p,
-            'shuffled_word_p': shuffled_word_p
-      }      
-      
-      if process is not None and process.poll() is None:
-            
-            process.send_signal(signal.SIGTERM)
-            process.terminate()
-            process.wait()
-                    
-            subprocess.call("pkill -f /home/lgucebu1/Tasks/Python3/shuffler/shuffler_app/shuffler3.py", shell=True)
-            subprocess.run(['pkill', 'python'])
-                    
-            # Start a new process
-            subprocess.run(["python3", "/home/lgucebu1/Tasks/Python3/shuffler/shuffler_app/shuffler3.py"])
-                 
-      #return HttpResponse("Script restarted")
-      return render(request, 'shuffler_html.html', context)
+            if len(data) > 0:
+                  meanings = data[0]['meanings']
+                  if len(meanings) > 0:
+                        meaning = meanings[0]['definitions'][0]['definition']
+                        return render(request, 'shuffler_html.html', {
+                              'meaning': meaning,
+                              'shuffled_word': shuffled_word,
+                              'random_word': random_word
+                              })
+                  else:
+                        return render(request, 'shuffler_html.html', {
+                              'meaning': "No meanings found.",
+                              'shuffled_word': shuffled_word,
+                              })
+            else:
+                  return render(request, 'shuffler_html.html', {
+                        'meaning': "Failed to retrieve meaning.",
+                        'shuffled_word': shuffled_word
+                        })
+      else:
+            return "Failed to retrieve meaning."
 
-# def restart_script(request):
-#       # subprocess.call(['python3', '/home/lgucebu1/Tasks/Python3/shuffler/shuffler_app/kill.sh'])
-#       
-
-#       return HttpResponse("All python Killed!")
-
-# def restart_script(request):
-#     try:
-#         subprocess.run(['pkill', 'python'])
-#         message = 'All python have been killed'
-#     except subprocess.CalledProcessError:
-#         message = 'Failed to kill Python process'
-
-#     context = {'message': message}
-#     return render(request, 'shuffler_html.html', context)
+def home(request):
+      return get_random_word(request)

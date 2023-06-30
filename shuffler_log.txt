@@ -1,0 +1,7 @@
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 30, 2023 - 03:38:39
+Django version 3.2.19, using settings 'shuffler.settings'
+Starting development server at http://0.0.0.0:8200/
+Quit the server with CONTROL-C.
