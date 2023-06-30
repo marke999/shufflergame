@@ -17,7 +17,7 @@
 <h1> <b> WELCOME TO THE SHUFFLER GAME </b> </h1>
 
 <!-- Main Component of the game -->
-<form method="post" action="{% url 'get_random_word' %}">
+<form method="get" action="{% url 'get_random_word' %}">
 	{% csrf_token %}
 	<label for="Definition">Definition: {{meaning}}<span id="definition"></span></label> <br>
 	<label for="Shuffled">Shuffled Word: {{shuffled_word}}<span id="shuffled_word"></span></label><br>
@@ -31,7 +31,7 @@
 <br>
 
 <!-- Button to randomly select another word and definition -->
-<form id="randomWordForm" method="post" action="{% url 'get_random_word' %}">
+<form id="randomWordForm" method="get" action="{% url 'get_random_word' %}">
     {% csrf_token %}
     <button onclick="getRandomWord">Guess Another Word</button>
 </form>
@@ -79,5 +79,3 @@ document.getElementById('shufflerForm').addEventListener('reset', getRandomWord)
 </script>	
 </body>
 </html>
-
-
