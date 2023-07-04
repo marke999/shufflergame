@@ -6,7 +6,7 @@ import requests
 # Main Python Logic
 def get_random_word(request):
       # Path to the CSV file
-      file_path = "/home/lgucebu1/Tasks/Python3/shuffler/shuffler_app/templates/words10.txt"
+      file_path = "/home/lgucebu1/Tasks/Python3/shufflergame/shuffler_app/templates/words10.txt"
 
       # Read the words from the CSV file
       with open(file_path, "r") as file:
@@ -23,7 +23,7 @@ def get_random_word(request):
       response = requests.get(url)
 
       # Retrieve meaning of the random word
-      if response.status_code == 200:     
+      if response.status_code == 200:
             data = response.json()
 
             if len(data) > 0:
