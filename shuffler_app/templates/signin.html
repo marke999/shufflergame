@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+	.parent-container {
+		display: grid;
+		place-items: center;
+	  }
+	body {background-color: lightblue; font-family: Arial}
+	h5	{text-align: right;}
+</style>
+
+</head>
+
+<body style='margin-top:20; margin-left:20; margin-right:20; '>
+
+<h1> <b>WORD SHUFFLER GAME </b> </h1>
+
+	<form method="post" action="{% url 'login' %}">
+		{% csrf_token %}
+		<label for="id_username"> Username:</label>
+		<input type="text" id="id_username" name="username">
+		
+		<label for="id_password"> Password:</label>
+		<input type="text" id="id_password" name="password">
+
+		<!-- <button type="button" onclick="window.location.href='http://192.168.1.196:8200/game';">Sign In</button> -->
+		<button type="submit">Sign In</button>
+		<button type="button" onclick="window.location.href='http://192.168.1.196:8200/register';">Register</button>
+
+	</form>	
+</body>
+</html>

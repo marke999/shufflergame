@@ -14,10 +14,10 @@
 
 <body style='margin-top:20; margin-left:20; margin-right:20; '>
 
-<h1> <b> WELCOME TO THE SHUFFLER GAME </b> </h1>
+<h1> <b>WORD SHUFFLER GAME </b> </h1>
 
 <!-- Main Component of the game -->
-<form method="get" action="{% url 'get_random_word' %}">
+<form method="get" action="{% url 'shuffleword' %}">
 	{% csrf_token %}
 	<label for="Definition">Definition: {{meaning}}<span id="definition"></span></label> <br>
 	<label for="Shuffled">Shuffled Word: {{shuffled_word}}<span id="shuffled_word"></span></label><br>
@@ -29,12 +29,6 @@
 
 <br>
 <br>
-
-<!-- Button to randomly select another word and definition -->
-<form id="randomWordForm" method="get" action="{% url 'get_random_word' %}">
-    {% csrf_token %}
-    <button onclick="getRandomWord">Guess Another Word</button>
-</form>
 
 <script>
 
@@ -59,7 +53,7 @@
 
 	// Function to randomly select a word and definition
 	function getRandomWord() {
-		fetch("/get_random_word/")
+		fetch("/shuffleword/")
 			.then(response => response.json())
 			.then(data => {
 				document.getElementById('shuffled_word').textContent = data.shuffled_word;
@@ -77,5 +71,17 @@ document.getElementById('shufflerForm').addEventListener('submit', handleSubmit)
 document.getElementById('shufflerForm').addEventListener('reset', getRandomWord);
 
 </script>	
+
+<!-- Button to randomly select another word and definition -->
+<form id="randomWordForm" method="get" action="{% url 'shuffleword' %}">
+    {% csrf_token %}
+    <button onclick="getRandomWord">Guess Another Word</button>
+</form>
+
+<br>
+
+<!-- Button to go to the homepage -->
+<button type="button" onclick="window.location.href='http://192.168.1.196:8200/homepage';">Home</button>
+
 </body>
 </html>
