@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+	.parent-container {
+		display: grid;
+		place-items: center;
+	  };
+	.textbox {
+		display: inline-block;
+		padding-right: 20em;
+	}
+	body {background-color: lightblue; font-family: Arial}
+	h5	{text-align: right;}
+</style>
+
+</head>
+
+<body style='margin-top:20; margin-left:20; margin-right:20; '>
+
+<h1> <b>WORD SHUFFLER GAME </b> </h1>
+
+<h2> <b> REGISTRATION </b></h2>
+
+<p><b>PERSONAL INFORMATION</b></p>
+
+<form action="/register/process_form" id="createAccountForm" method="post">
+<!-- <form action="process_form" method="post"> -->
+	{% csrf_token %}
+
+	<div class="textbox">
+	<label for="firstname"> First Name: </label>
+	<input type="text" id="firstname" name="firstname">
+	</div>
+	<br>
+
+	<div class="textbox">
+	<label for="lastname"> Last Name: </label>
+	<input type="text" id="lastname" name="lastname">
+	</div>
+	<br>
+
+	<div class="textbox">
+	<label for="country"> Country: </label>
+	<input type="text" id="country" name="country">
+	</div>
+	<br>
+
+	<div class="textbox">
+	<label for="city"> City: </label>
+	<input type="text" id="city" name="city">
+	</div>
+	<br>
+
+	<div class="textbox">
+	<label for="email"> Email: </label>
+	<input type="text" id="email" name="email">
+	</div>
+	<br>
+
+	<div class="textbox">
+	<label for="mobile"> Mobile: </label>
+	<input type="text" id="mobile" name="mobile">
+	</div>
+	<br>
+
+	<div class="textbox">
+	<label for="username"> Create Username: </label>
+	<input type="text" id="username" name="username">
+	</div>
+	<br>
+
+	<div class="textbox">
+	<label for="password"> Create Password: </label>
+	<input type="text" id="password", name="password">
+	</div>
+	<br>
+	<button type="submit" onclick="submitForm()">Create Account</button>
+</form>
+
+<script>
+	function submitForm() {
+		const form = document.getElementById('createAccountForm');
+		const formData = new FormData(form);
+
+		const firstname = document.getElementById('firstname').value;
+		const firstname = document.getElementById('lastname').value;
+		const firstname = document.getElementById('country').value;
+		const firstname = document.getElementById('city').value;
+		const firstname = document.getElementById('email').value;
+		const firstname = document.getElementById('mobile').value;
+		const firstname = document.getElementById('username').value;
+		const firstname = document.getElementById('password').value;
+
+		formData.append('firstname', firstname);
+		formData.append('lastname', firstname);
+		formData.append('country', firstname);
+		formData.append('city', firstname);
+		formData.append('email', firstname);
+		formData.append('mobile', firstname);
+		formData.append('username', firstname);
+		formData.append('password', firstname);
+
+		// fetch('{% url "process_form" %}', {
+		fetch('/register/process_form', {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.json())
+		.then(data => {
+				//Display the message as a pop-up alert
+				alert(data.message);
+
+				if (response.ok) {
+				//Redirect to the homepage
+				window.location.href = 'http://192.168.1.196:8200/homepage';
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
+	}
+</script>
+
+<br>
+
+<!-- Button to go to the homepage -->
+<button type="button" onclick="window.location.href='http://192.168.1.196:8200/homepage';">Home</button>
+
+</body>
+</html>

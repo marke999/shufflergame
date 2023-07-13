@@ -16,9 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.urls import path
 from django.contrib import admin
-from shuffler_app.views import get_random_word, home
+from shuffler_app.views import homepage, game, login, shuffleword, register, process_form
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('get_random_word/', get_random_word, name='get_random_word'),
+    path('homepage/', homepage, name='homepage'),
+    path('game/', game, name='game'),
+    path('login/', login, name='login'),
+    path('shuffleword/', shuffleword, name='shuffleword'),
+    path('register/', register, name='register'),
+    path('register/process_form', process_form, name='process_form'),
 ]

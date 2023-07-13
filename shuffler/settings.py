@@ -75,9 +75,16 @@ WSGI_APPLICATION = 'shuffler.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    'default':  {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'shufflergame',
+        'USER': 'root', 
+        'PASSWORD': 'P@ssw0rd#',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -119,3 +126,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#To explicitly define the type of primary key field in Django
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
