@@ -17,13 +17,13 @@
 <h1> <b>WORD SHUFFLER GAME </b> </h1>
 
 <!-- Main Component of the game -->
-<form method="get" action="{% url 'shuffleword' %}">
+<form method="post" id="gameForm">
 	{% csrf_token %}
 	<label for="Definition">Definition: {{meaning}}<span id="definition"></span></label> <br>
 	<label for="Shuffled">Shuffled Word: {{shuffled_word}}<span id="shuffled_word"></span></label><br>
 	<label for="UserInput">Original Word:</label>
-	<input type="text" id="UserInput">
-	<button type="submit" onclick="handleSubmit()">Submit</button><br>
+	<input type="text" id="UserInput" name="UserInput">
+	<button type="submit" id="submitButton" onclick="handleSubmit()">Submit</button><br>
 	<label for="output" id="output">Result: {{output}}<span id="result"></span></label>
 </form>
 
@@ -48,8 +48,37 @@
 			// Display output if they don't match
 			document.getElementById('result').textContent = "You are wrong! The correct answer is " + originalInput + ".";
 		}
-	}
+		
+		//Hide the 'Submit' button
+		document.getElementById('submitButton').style.display = 'none';
+		
+		// ##########To check again this line of code  vvvvv
+		// Send the userinput to the server using AJAX
+		var formData = new FormData();
+		formData.append('UserInput', inputValue);
 
+		fetch("{% url 'store_input' %}", {
+			method: 'POST',
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			body: formData	
+		})
+		.then(response => {
+			if (response.ok) {
+				//If response is successful
+				console.log('Input stored successfully');
+			} else {
+				//If response is not successful
+				console.log('Failed to store input');
+			}
+		})
+		.catch(error => {
+			//Other error
+			console.error('Error occured: ', error)
+		});
+	}
+		// ##########To check again this line of code  ^^^^^^^^^^
 
 	// Function to randomly select a word and definition
 	function getRandomWord() {
@@ -66,14 +95,14 @@
 					console.error('Error:', error);
 			});
 }
-
-document.getElementById('shufflerForm').addEventListener('submit', handleSubmit);
-document.getElementById('shufflerForm').addEventListener('reset', getRandomWord);
-
+document.addEventListener('DOMContentLoaded', function() {
+	document.getElementById('shufflerForm').addEventListener('submit', handleSubmit);
+	document.getElementById('shufflerForm').addEventListener('reset', getRandomWord);
+});
 </script>	
 
 <!-- Button to randomly select another word and definition -->
-<form id="randomWordForm" method="get" action="{% url 'shuffleword' %}">
+<form id="randomWordForm" method="post" action="{% url 'shuffleword' %}">
     {% csrf_token %}
     <button onclick="getRandomWord">Guess Another Word</button>
 </form>
@@ -84,4 +113,4 @@ document.getElementById('shufflerForm').addEventListener('reset', getRandomWord)
 <button type="button" onclick="window.location.href='http://192.168.1.196:8200/homepage';">Home</button>
 
 </body>
-</html>
+</html>	

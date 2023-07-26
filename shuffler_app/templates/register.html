@@ -84,22 +84,22 @@
 		const formData = new FormData(form);
 
 		const firstname = document.getElementById('firstname').value;
-		const firstname = document.getElementById('lastname').value;
-		const firstname = document.getElementById('country').value;
-		const firstname = document.getElementById('city').value;
-		const firstname = document.getElementById('email').value;
-		const firstname = document.getElementById('mobile').value;
-		const firstname = document.getElementById('username').value;
-		const firstname = document.getElementById('password').value;
+		const lastname = document.getElementById('lastname').value;
+		const country = document.getElementById('country').value;
+		const city = document.getElementById('city').value;
+		const email = document.getElementById('email').value;
+		const mobile = document.getElementById('mobile').value;
+		const username = document.getElementById('username').value;
+		const password = document.getElementById('password').value;
 
 		formData.append('firstname', firstname);
-		formData.append('lastname', firstname);
-		formData.append('country', firstname);
-		formData.append('city', firstname);
-		formData.append('email', firstname);
-		formData.append('mobile', firstname);
-		formData.append('username', firstname);
-		formData.append('password', firstname);
+		formData.append('lastname', lastname);
+		formData.append('country', country);
+		formData.append('city', city);
+		formData.append('email', email);
+		formData.append('mobile', mobile);
+		formData.append('username', username);
+		formData.append('password', password);
 
 		// fetch('{% url "process_form" %}', {
 		fetch('/register/process_form', {

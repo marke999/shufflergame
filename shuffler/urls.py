@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.urls import path
 from django.contrib import admin
-from shuffler_app.views import homepage, game, login, shuffleword, register, process_form
+from shuffler_app.views import homepage, game, login, shuffleword, register, process_form, store_input
 
 urlpatterns = [
     path('homepage/', homepage, name='homepage'),
@@ -25,4 +25,5 @@ urlpatterns = [
     path('shuffleword/', shuffleword, name='shuffleword'),
     path('register/', register, name='register'),
     path('register/process_form', process_form, name='process_form'),
+    path('shuffleword/store_input/', store_input, name='store_input'),
 ]
