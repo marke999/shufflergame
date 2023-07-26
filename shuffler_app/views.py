@@ -6,8 +6,11 @@ from django.db import connection
 from django.contrib.auth.hashers import check_password
 from .forms import LoginForm
 from .models import User
+from datetime import datetime
 import random
 import requests
+import logging
+
 
 # Main Home Page
 def homepage(request):
@@ -107,7 +110,6 @@ def login(request):
             if form.is_valid():
                   username = form.cleaned_data['username']
                   password = form.cleaned_data['password']
-
                   try:
                         user = User.objects.get(username=username)
                         if user.password == password:
@@ -115,10 +117,38 @@ def login(request):
                         else:
                               return render(request, 'wrongpw.html')
                   except User.DoesNotExist:
-                        #messages.error(request, 'Invalid username or password')
                         return render(request, 'noaccount.html')
             else:
                   messages.error(request, 'Invalid form data')
       else:
             form = LoginForm()
       return render(request, 'noaccount.html', {'form': form})
+
+
+###########To check again this line of code
+#Store game details from the game page to MySQL
+def store_input(request):
+      if request.method == 'POST':
+            inputValue = request.POST.get('UserInput')
+            
+            # Get the username of the currently logged-in user 
+            # Put the code here.
+
+            #Get the curren date and time
+            play_date = datetime.now().date()
+            play_time = datetime.now().time()
+
+            try:
+                  #Insert the answer to the database
+                  with connection.cursor() as cursor:
+                        sql = "INSERT INTO output (username, PlayDate, PlayTime, WordClass, OrigWord, ShufWord, UserInput, Result) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+                        cursor.execute(sql, ["M.ARNOCO", play_date, play_time, "NOUN", "{{random_word}}", "{{shuffled_word}}", inputValue, "RESULT"])
+                        connection.commit()
+                  #When the answer is successfully stored in the database
+                  return JsonResponse({'message': "Successfully stored in MySQL"})
+            except Exception as e:
+                  logging.error(f"Failed to store in MySQL. Error: {e}")
+                  return JsonResponse({'message': "Failed to store in MySQL"})
+      else:
+            return JsonResponse({'message': "Invalid request method"})
+      
