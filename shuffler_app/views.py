@@ -131,10 +131,7 @@ def store_input(request):
       if request.method == 'POST':
             inputValue = request.POST.get('UserInput')
             
-            # Get the username of the currently logged-in user 
-            # Put the code here.
-
-            #Get the curren date and time
+            #Get the current date and time
             play_date = datetime.now().date()
             play_time = datetime.now().time()
 
