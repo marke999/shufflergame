@@ -25,7 +25,8 @@ SECRET_KEY = '*=+3ium8#eaf4w#77$mruel70h2l)zoxp0v$hr)i@t7twu9($s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '192.168.1.196', 'lgucebu1', '127.0.0.1', '0.0.0.0', '192.168.1.200']
+ALLOWED_IP = os.environ.get('ALLOWED_IP', '127.0.0.1')
+ALLOWED_HOSTS = [ALLOWED_IP, 'localhost', '192.168.1.196']
 
 
 # Application definition
@@ -81,7 +82,7 @@ DATABASES = {
     'default':  {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'shufflergame',
-        'USER': 'root', 
+        'USER': 'root',
         'PASSWORD': 'P@ssw0rd#',
         'HOST': 'localhost',
         'PORT': '3306',

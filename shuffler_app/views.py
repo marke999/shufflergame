@@ -46,7 +46,7 @@ def shuffleword(request):
                         return render(request, 'shuffler_html.html', {
                               'meaning': meaning,
                               'shuffled_word': shuffled_word,
-                              'random_word': random_word 
+                              'random_word': random_word,
                               })
                   else:
                         return render(request, 'shuffler_html.html', {
@@ -130,7 +130,7 @@ def login(request):
 def store_input(request):
       if request.method == 'POST':
             inputValue = request.POST.get('UserInput')
-            
+
             #Get the current date and time
             play_date = datetime.now().date()
             play_time = datetime.now().time()
@@ -148,4 +148,3 @@ def store_input(request):
                   return JsonResponse({'message': "Failed to store in MySQL"})
       else:
             return JsonResponse({'message': "Invalid request method"})
-      
